@@ -1,5 +1,5 @@
 using HelloWorldFromId.Services;
-using HelloWorldFromId.Tests.Repositories;
+using HelloWorldFromId.Tests.Fake;
 
 namespace HelloWorldFromId.Tests.Services;
 

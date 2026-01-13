@@ -1,7 +1,7 @@
 using HelloWorldFromId.Models;
 using HelloWorldFromId.Repositories;
 
-namespace HelloWorldFromId.Tests.Repositories;
+namespace HelloWorldFromId.Tests.Fake;
 
 public class FakeWeatherForecastRepository : IWeatherForecastRepository
 {
