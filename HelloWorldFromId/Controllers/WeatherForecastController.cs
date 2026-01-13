@@ -1,4 +1,3 @@
-using HelloWorldFromId.Models;
 using HelloWorldFromId.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +7,9 @@ namespace HelloWorldFromId.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController(IWeatherForecastService service) : ControllerBase
 {
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpGet]
+    public async Task<IActionResult> Get()
     {
-        return service.GetForecast();
+        return Ok(await service.GetForecastAsync());
     }
 }

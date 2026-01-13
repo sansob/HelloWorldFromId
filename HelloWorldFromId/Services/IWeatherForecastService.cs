@@ -4,5 +4,5 @@ namespace HelloWorldFromId.Services;
 
 public interface IWeatherForecastService
 {
-    IEnumerable<WeatherForecast> GetForecast();
+    Task<IEnumerable<WeatherForecast>> GetForecastAsync();
 }

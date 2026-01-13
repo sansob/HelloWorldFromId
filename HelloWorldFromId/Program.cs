@@ -1,3 +1,4 @@
+using HelloWorldFromId.Repositories;
 using HelloWorldFromId.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
-builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 
+builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
+builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

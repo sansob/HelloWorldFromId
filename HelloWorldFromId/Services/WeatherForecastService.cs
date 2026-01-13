@@ -1,22 +1,13 @@
 using HelloWorldFromId.Models;
+using HelloWorldFromId.Repositories;
 
 namespace HelloWorldFromId.Services;
 
-public class WeatherForecastService : IWeatherForecastService
+public class WeatherForecastService(IWeatherForecastRepository repository) : IWeatherForecastService
 {
-    private static readonly string[] Summaries =
-    [
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild",
-        "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    ];
-
-    public IEnumerable<WeatherForecast> GetForecast()
+    public async Task<IEnumerable<WeatherForecast>> GetForecastAsync()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        });
+        var data = await repository.GetAsync();
+        return data.Where(x => x.TemperatureC > -10);
     }
 }

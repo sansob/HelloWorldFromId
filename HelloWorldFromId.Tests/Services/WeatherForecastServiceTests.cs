@@ -1,47 +1,47 @@
 using HelloWorldFromId.Services;
+using HelloWorldFromId.Tests.Repositories;
 
 namespace HelloWorldFromId.Tests.Services;
 
 public class WeatherForecastServiceTests
 {
-    private readonly WeatherForecastService _service = new();
+    private readonly WeatherForecastService _service;
+
+    public WeatherForecastServiceTests()
+    {
+        var fakeRepository = new FakeWeatherForecastRepository();
+        _service = new WeatherForecastService(fakeRepository);
+    }
 
     [Fact]
-    public void GetForecast_ShouldReturnFiveItems()
+    public async Task GetForecastAsync_ShouldReturnFiveItems()
     {
-        var result = _service.GetForecast().ToList();
+        var result = (await _service.GetForecastAsync()).ToList();
 
-        Assert.NotNull(result);
         Assert.Equal(5, result.Count);
     }
 
     [Fact]
-    public void GetForecast_ShouldHaveValidTemperatureRange()
+    public async Task GetForecastAsync_ShouldFilterTemperatureCorrectly()
     {
-        var result = _service.GetForecast();
+        var result = await _service.GetForecastAsync();
 
-        foreach (var item in result)
-        {
-            Assert.InRange(item.TemperatureC, -20, 54);
-        }
+        Assert.All(result, x => Assert.True(x.TemperatureC > -10));
     }
 
     [Fact]
-    public void GetForecast_ShouldHaveNonEmptySummary()
+    public async Task GetForecastAsync_ShouldHaveNonEmptySummary()
     {
-        var result = _service.GetForecast();
+        var result = await _service.GetForecastAsync();
 
-        foreach (var item in result)
-        {
-            Assert.False(string.IsNullOrWhiteSpace(item.Summary));
-        }
+        Assert.All(result, x => Assert.False(string.IsNullOrWhiteSpace(x.Summary)));
     }
 
     [Fact]
-    public void GetForecast_ShouldHaveFutureDates()
+    public async Task GetForecastAsync_ShouldHaveFutureDates()
     {
         var today = DateOnly.FromDateTime(DateTime.Now);
-        var result = _service.GetForecast().ToList();
+        var result = (await _service.GetForecastAsync()).ToList();
 
         for (var i = 0; i < result.Count; i++)
         {
